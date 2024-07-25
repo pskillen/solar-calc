@@ -124,42 +124,28 @@ export default function DayNightImportCalc(): JSX.Element {
       <Card.Body>
         <Card.Title><h3>{props.title}</h3>
           {props.subtitle && <p className="lead">{props.subtitle}</p>}</Card.Title>
-        {/*<Card.Text>*/}
-        {/*
-        const labels = {
-        dayLoad: {title: "Daytime load", prefix: "", suffix: " kW", decimals: 1},
-        dayNetImport: {title: "Daytime net import", prefix: "", suffix: " kW", decimals: 1},
-        dayCost: {title: "Daytime cost", prefix: "£", suffix: "/hr", decimals: 2},
-        nightLoad: {title: "Night load", prefix: "", suffix: " kW", decimals: 1},
-        nightCost: {title: "Night cost", prefix: "£", suffix: "/hr", decimals: 2},
-        netCost: {title: "Net cost", prefix: "£", suffix: "/hr", decimals: 2},
-      }
-*/}
         <dl className="row">
-          <dt className="col-sm-4 text-right">Daytime load</dt>
-          <dd className="col-sm-6 text-left">{props.results.dayLoad.toFixed(1)} kw</dd>
+          <dt className="col-lg-4 col-md-6 text-right">Daytime load</dt>
+          <dd className="col-lg-8 col-md-6 text-left">{props.results.dayLoad.toFixed(1)} kw</dd>
 
-          <dt className="col-sm-4 text-right">Daytime net import</dt>
-          <dd className="col-sm-6 text-left">{props.results.dayNetImport.toFixed(1)} kw</dd>
+          <dt className="col-lg-4 col-md-6 text-right">Daytime net import</dt>
+          <dd className="col-lg-8 col-md-6 text-left">{props.results.dayNetImport.toFixed(1)} kw</dd>
 
-          <dt className="col-sm-4 text-right">Daytime cost</dt>
-          <dd className="col-sm-6 text-left">£{props.results.dayCost.toFixed(2)}/hr</dd>
+          <dt className="col-lg-4 col-md-6 text-right">Daytime cost</dt>
+          <dd className="col-lg-8 col-md-6 text-left">£{props.results.dayCost.toFixed(2)}/hr</dd>
 
-          <dt className="col-sm-4 text-right">Night load</dt>
-          <dd className="col-sm-6 text-left">{props.results.nightLoad.toFixed(1)} kw</dd>
+          <dt className="col-lg-4 col-md-6 text-right">Night load</dt>
+          <dd className="col-lg-8 col-md-6 text-left">{props.results.nightLoad.toFixed(1)} kw</dd>
 
-          <dt className="col-sm-4 text-right">Night cost</dt>
-          <dd className="col-sm-6 text-left">£{props.results.nightCost.toFixed(2)}/hr</dd>
-
-          <dt className="col-sm-4 text-right">Net cost</dt>
-          <dd className="col-sm-6 text-left">£{props.results.netCost.toFixed(2)}/hr</dd>
-
+          <dt className="col-lg-4 col-md-6 text-right">Night cost</dt>
+          <dd className="col-lg-8 col-md-6 text-left">£{props.results.nightCost.toFixed(2)}/hr</dd>
         </dl>
-        {/*</Card.Text>*/}
       </Card.Body>
       <Card.Footer>
-        {/*Net effect: <strong>{dayCostRate > 0 ? 'cost' : 'earn'} £*/}
-        {/*{Math.abs(dayCostRate).toFixed(2)}/hr</strong>*/}
+        <dl className="row">
+          <dt className="col-sm-4 text-right">Net cost</dt>
+          <dd className="col-sm-6 text-left">£{props.results.netCost.toFixed(2)}/hr</dd>
+        </dl>
       </Card.Footer>
     </Card>
   }
@@ -247,7 +233,7 @@ export default function DayNightImportCalc(): JSX.Element {
 
           <Row className="mb-3">
             <Form.Label className="mt-2">Power</Form.Label>
-            <Form.Group as={Col}>
+            <Form.Group as={Col} className="col-xs-12 col-sm-12 col-md-6 col-lg-4">
               <Form.Label>Estimated PV power</Form.Label>
               <InputGroup>
                 <InputGroup.Text>PV</InputGroup.Text>
@@ -263,17 +249,8 @@ export default function DayNightImportCalc(): JSX.Element {
                 generate this much PV.</Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col}>
+            <Form.Group as={Col} className="col-xs-12 col-sm-12 col-md-6 col-lg-4">
               <Form.Label>Shiftable import load</Form.Label>
-              {/*<dl className="row">
-                {formInputs.shiftableImportLoads.map((item, idx) => <Fragment key={`load-item-${idx}`}>
-                  <dt className="col-sm-4 text-right">{item.label}</dt>
-                  <dd className="col-sm-6 text-left">{item.power} kW</dd>
-                </Fragment>)}
-
-                {formInputs.shiftableImportLoads.length === 0 &&
-                  <Form.Text>Add an item below</Form.Text>}
-              </dl>*/}
               {formInputs.shiftableImportLoads.map((item, idx) =>
                 <InputGroup key={`load-item-${idx}`}>
                   <Form.Control type="text"
@@ -327,7 +304,7 @@ export default function DayNightImportCalc(): JSX.Element {
                 Examples include charging the house battery, EV, hot water, etc</Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col}>
+            <Form.Group as={Col} className="col-xs-12 col-sm-12 col-md-6 col-lg-4">
               <Form.Label>Base load</Form.Label>
               <InputGroup>
                 <InputGroup.Text>Base</InputGroup.Text>
