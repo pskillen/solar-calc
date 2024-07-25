@@ -125,20 +125,20 @@ export default function DayNightImportCalc(): JSX.Element {
         <Card.Title><h3>{props.title}</h3>
           {props.subtitle && <p className="lead">{props.subtitle}</p>}</Card.Title>
         <dl className="row">
-          <dt className="col-lg-4 col-md-6 text-right">Daytime load</dt>
-          <dd className="col-lg-8 col-md-6 text-left">{props.results.dayLoad.toFixed(1)} kw</dd>
+          <dt className="col-lg-4 col-6 text-right">Daytime load</dt>
+          <dd className="col-lg-8 col-6 text-left">{props.results.dayLoad.toFixed(1)} kw</dd>
 
-          <dt className="col-lg-4 col-md-6 text-right">Daytime net import</dt>
-          <dd className="col-lg-8 col-md-6 text-left">{props.results.dayNetImport.toFixed(1)} kw</dd>
+          <dt className="col-lg-4 col-6 text-right">Daytime net import</dt>
+          <dd className="col-lg-8 col-6 text-left">{props.results.dayNetImport.toFixed(1)} kw</dd>
 
-          <dt className="col-lg-4 col-md-6 text-right">Daytime cost</dt>
-          <dd className="col-lg-8 col-md-6 text-left">£{props.results.dayCost.toFixed(2)}/hr</dd>
+          <dt className="col-lg-4 col-6 text-right">Daytime cost</dt>
+          <dd className="col-lg-8 col-6 text-left">£{props.results.dayCost.toFixed(2)}/hr</dd>
 
-          <dt className="col-lg-4 col-md-6 text-right">Night load</dt>
-          <dd className="col-lg-8 col-md-6 text-left">{props.results.nightLoad.toFixed(1)} kw</dd>
+          <dt className="col-lg-4 col-6 text-right">Night load</dt>
+          <dd className="col-lg-8 col-6 text-left">{props.results.nightLoad.toFixed(1)} kw</dd>
 
-          <dt className="col-lg-4 col-md-6 text-right">Night cost</dt>
-          <dd className="col-lg-8 col-md-6 text-left">£{props.results.nightCost.toFixed(2)}/hr</dd>
+          <dt className="col-lg-4 col-6 text-right">Night cost</dt>
+          <dd className="col-lg-8 col-6 text-left">£{props.results.nightCost.toFixed(2)}/hr</dd>
         </dl>
       </Card.Body>
       <Card.Footer>
@@ -185,7 +185,7 @@ export default function DayNightImportCalc(): JSX.Element {
 
           <Row className="mb-3">
             <Form.Label>Grid import unit price</Form.Label>
-            <Form.Group as={Col}>
+            <Form.Group as={Col} className="col-12 col-sm-6">
               <InputGroup>
                 <InputGroup.Text>Day</InputGroup.Text>
                 <Form.Control type="number"
@@ -198,7 +198,7 @@ export default function DayNightImportCalc(): JSX.Element {
               </InputGroup>
             </Form.Group>
 
-            <Form.Group as={Col}>
+            <Form.Group as={Col} className="col-12 col-sm-6">
               <InputGroup>
                 <InputGroup.Text>Night</InputGroup.Text>
                 <Form.Control type="number"
@@ -233,7 +233,7 @@ export default function DayNightImportCalc(): JSX.Element {
 
           <Row className="mb-3">
             <Form.Label className="mt-2">Power</Form.Label>
-            <Form.Group as={Col} className="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <Form.Group as={Col} className="col-12 col-md-6 col-lg-4">
               <Form.Label>Estimated PV power</Form.Label>
               <InputGroup>
                 <InputGroup.Text>PV</InputGroup.Text>
@@ -249,7 +249,7 @@ export default function DayNightImportCalc(): JSX.Element {
                 generate this much PV.</Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col} className="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <Form.Group as={Col} className="col-12 col-md-6 col-lg-4">
               <Form.Label>Shiftable import load</Form.Label>
               {formInputs.shiftableImportLoads.map((item, idx) =>
                 <InputGroup key={`load-item-${idx}`}>
@@ -274,7 +274,7 @@ export default function DayNightImportCalc(): JSX.Element {
 
               <Form.Label>Add new item</Form.Label>
               <InputGroup>
-                <InputGroup.Text>Name</InputGroup.Text>
+                <InputGroup.Text className="d-none d-sm-flex">Name</InputGroup.Text>
                 <Form.Control type="text"
                               placeholder="Name"
                               value={newShiftableLoadInput?.label}
@@ -304,7 +304,7 @@ export default function DayNightImportCalc(): JSX.Element {
                 Examples include charging the house battery, EV, hot water, etc</Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col} className="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <Form.Group as={Col} className="col-12 col-md-6 col-lg-4">
               <Form.Label>Base load</Form.Label>
               <InputGroup>
                 <InputGroup.Text>Base</InputGroup.Text>
