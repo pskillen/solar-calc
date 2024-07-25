@@ -3,10 +3,10 @@ import {NavbarConfig} from "../types.ts";
 const navbarConfig: NavbarConfig = {
   siteName: "Paddy's solar calculator",
   items: [
-    {label: "Home", url: "/"},
+    {label: "Home", url: "#/"},
     {
       label: "Calculators", children: [
-        {label: "Day/night import", url: "/calc/day-night-import"},
+        {label: "Day/night import", url: "#/calc/day-night-import"},
       ]
     },
   ],

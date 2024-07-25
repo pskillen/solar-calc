@@ -1,14 +1,14 @@
-import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
+import {useEffect} from "react";
+import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
+import {useLocalStorage} from "usehooks-ts";
 
 import HomePage from './pages/HomePage.tsx';
 import DayNightImportCalc from "./pages/calc/DayNightImportCalc.tsx";
-import {useEffect} from "react";
-import {useLocalStorage} from "usehooks-ts";
 
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
-    <Route path="/">
+    <Route path='/'>
       <Route index element={<HomePage/>}/>
 
       <Route path="calc">

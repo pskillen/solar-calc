@@ -1,4 +1,5 @@
 const siteConfig = {
+  rootPath: '/solar-calc',
   theme: 'dark',
 };
 
