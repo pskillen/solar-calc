@@ -1,4 +1,4 @@
-import {Fragment, JSX, useEffect, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import BasePage from "../BasePage.tsx";
 import {Accordion, Button, Card, CardGroup, Col, Form, InputGroup, Row} from "react-bootstrap";
 import {useLocalStorage} from "usehooks-ts";
@@ -28,14 +28,6 @@ type CalculationResult = {
 }
 
 export default function DayNightImportCalc(): JSX.Element {
-  const labels = {
-    dayLoad: {title: "Daytime load", prefix: "", suffix: " kW", decimals: 1},
-    dayNetImport: {title: "Daytime net import", prefix: "", suffix: " kW", decimals: 1},
-    dayCost: {title: "Daytime cost", prefix: "£", suffix: "/hr", decimals: 2},
-    nightLoad: {title: "Night load", prefix: "", suffix: " kW", decimals: 1},
-    nightCost: {title: "Night cost", prefix: "£", suffix: "/hr", decimals: 2},
-    netCost: {title: "Net cost", prefix: "£", suffix: "/hr", decimals: 2},
-  }
 
   const [formInputs, setFormInputs] = useLocalStorage<FormData>('day-night-import-calc-inputs', {
     importPriceDay: 12.0,
@@ -133,17 +125,35 @@ export default function DayNightImportCalc(): JSX.Element {
         <Card.Title><h3>{props.title}</h3>
           {props.subtitle && <p className="lead">{props.subtitle}</p>}</Card.Title>
         {/*<Card.Text>*/}
+        {/*
+        const labels = {
+        dayLoad: {title: "Daytime load", prefix: "", suffix: " kW", decimals: 1},
+        dayNetImport: {title: "Daytime net import", prefix: "", suffix: " kW", decimals: 1},
+        dayCost: {title: "Daytime cost", prefix: "£", suffix: "/hr", decimals: 2},
+        nightLoad: {title: "Night load", prefix: "", suffix: " kW", decimals: 1},
+        nightCost: {title: "Night cost", prefix: "£", suffix: "/hr", decimals: 2},
+        netCost: {title: "Net cost", prefix: "£", suffix: "/hr", decimals: 2},
+      }
+*/}
         <dl className="row">
-          {Object.keys(props.results).map(k => {
-            const thisLabel = labels[k];
-            const thisResult = props.results[k];
+          <dt className="col-sm-4 text-right">Daytime load</dt>
+          <dd className="col-sm-6 text-left">{props.results.dayLoad.toFixed(1)} kw</dd>
 
-            return <Fragment key={k}>
-              <dt className="col-sm-4 text-right">{thisLabel.title}</dt>
-              <dd
-                className="col-sm-6 text-left">{thisLabel.prefix}{thisResult.toFixed(thisLabel.decimals)}{thisLabel.suffix}</dd>
-            </Fragment>;
-          })}
+          <dt className="col-sm-4 text-right">Daytime net import</dt>
+          <dd className="col-sm-6 text-left">{props.results.dayNetImport.toFixed(1)} kw</dd>
+
+          <dt className="col-sm-4 text-right">Daytime cost</dt>
+          <dd className="col-sm-6 text-left">£{props.results.dayCost.toFixed(2)}/hr</dd>
+
+          <dt className="col-sm-4 text-right">Night load</dt>
+          <dd className="col-sm-6 text-left">{props.results.nightLoad.toFixed(1)} kw</dd>
+
+          <dt className="col-sm-4 text-right">Night cost</dt>
+          <dd className="col-sm-6 text-left">£{props.results.nightCost.toFixed(2)}/hr</dd>
+
+          <dt className="col-sm-4 text-right">Net cost</dt>
+          <dd className="col-sm-6 text-left">£{props.results.netCost.toFixed(2)}/hr</dd>
+
         </dl>
         {/*</Card.Text>*/}
       </Card.Body>
