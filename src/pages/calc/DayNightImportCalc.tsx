@@ -1,7 +1,9 @@
 import {JSX, useEffect, useState} from "react";
-import BasePage from "../BasePage.tsx";
 import {Accordion, Button, Card, CardGroup, Col, Form, InputGroup, Row} from "react-bootstrap";
 import {useLocalStorage} from "usehooks-ts";
+
+import BasePage from "../BasePage.tsx";
+import {LocalStorage} from "../../config/keys.ts";
 
 type LoadItem = {
   label: string;
@@ -12,7 +14,6 @@ type FormData = {
   importPriceDay: number;
   importPriceNight: number;
   exportPriceDay: number;
-  // exportPriceNight: number;
   pvPower: number;
   shiftableImportLoads: LoadItem[];
   baseLoad: number;
@@ -29,11 +30,10 @@ type CalculationResult = {
 
 export default function DayNightImportCalc(): JSX.Element {
 
-  const [formInputs, setFormInputs] = useLocalStorage<FormData>('day-night-import-calc-inputs', {
-    importPriceDay: 12.0,
-    importPriceNight: 10.0,
+  const [formInputs, setFormInputs] = useLocalStorage<FormData>(LocalStorage.calculators.dayNightImport.formData, {
+    importPriceDay: 8.0,
+    importPriceNight: 12.0,
     exportPriceDay: 15.0,
-    // exportPriceNight: 15.0,
     pvPower: 4.0,
     shiftableImportLoads: [],
     baseLoad: 0.3,
@@ -125,26 +125,34 @@ export default function DayNightImportCalc(): JSX.Element {
         <Card.Title><h3>{props.title}</h3>
           {props.subtitle && <p className="lead">{props.subtitle}</p>}</Card.Title>
         <dl className="row">
-          <dt className="col-lg-4 col-6 text-right">Daytime load</dt>
+          <dt className="col-lg-4 col-6 text-right">Total daytime load</dt>
           <dd className="col-lg-8 col-6 text-left">{props.results.dayLoad.toFixed(1)} kw</dd>
 
           <dt className="col-lg-4 col-6 text-right">Daytime net import</dt>
-          <dd className="col-lg-8 col-6 text-left">{props.results.dayNetImport.toFixed(1)} kw</dd>
+          <dd className="col-lg-8 col-6 text-left">{props.results.dayNetImport.toFixed(1)} kw (after solar
+            contribution)
+          </dd>
 
           <dt className="col-lg-4 col-6 text-right">Daytime cost</dt>
-          <dd className="col-lg-8 col-6 text-left">£{props.results.dayCost.toFixed(2)}/hr</dd>
+          <dd
+            className="col-lg-8 col-6 text-left">£{Math.abs(props.results.dayCost).toFixed(2)}/hr {props.results.dayCost < 0 && ' profit'}</dd>
 
-          <dt className="col-lg-4 col-6 text-right">Night load</dt>
+          <dt className="col-lg-4 col-6 text-right">Total night load</dt>
           <dd className="col-lg-8 col-6 text-left">{props.results.nightLoad.toFixed(1)} kw</dd>
 
           <dt className="col-lg-4 col-6 text-right">Night cost</dt>
-          <dd className="col-lg-8 col-6 text-left">£{props.results.nightCost.toFixed(2)}/hr</dd>
+          <dd
+            className="col-lg-8 col-6 text-left">£{Math.abs(props.results.nightCost).toFixed(2)}/hr {props.results.nightCost < 0 && ' profit'}</dd>
         </dl>
       </Card.Body>
       <Card.Footer>
-        <dl className="row">
-          <dt className="col-sm-4 text-right">Net cost</dt>
-          <dd className="col-sm-6 text-left">£{props.results.netCost.toFixed(2)}/hr</dd>
+        <dl className="row mt-2 mb-2">
+          <dt className="col-lg-4 col-6 text-right">Total cost per hour</dt>
+          <dd
+            className="col-lg-8 col-6 text-left">£{Math.abs(props.results.netCost).toFixed(2)}/hr {props.results.netCost < 0 && ' profit'}</dd>
+          <dd
+            className="text-left">This is the sum of 1 hour of day import/export and 1 hour of night import
+          </dd>
         </dl>
       </Card.Footer>
     </Card>
@@ -157,23 +165,30 @@ export default function DayNightImportCalc(): JSX.Element {
       <section title="Description" className="mb-3">
         <Accordion>
           <Accordion.Item eventKey="0">
-            <Accordion.Header>What is this calculator?</Accordion.Header>
+            <Accordion.Header>Instructions (click to expand)</Accordion.Header>
             <Accordion.Body>
-              <div>
-                <p>Use this form to model what it would cost to import large loads during the day, when solar is high
-                  but
-                  electricity is cheap, or shift your load to a more expensive period overnight but solar is
-                  unavailable</p>
-              </div>
-              <div>
-                <p>This is useful if</p>
-                <ol>
-                  <li>You are on Octopus Agile (or another time-of-day tariff)</li>
-                  <li>You have solar panels and an export tariff</li>
-                  <li>There is a cheap period during daylight hours</li>
-                  <li>There is a less cheap period during overnight</li>
-                </ol>
-              </div>
+              <h5>What is this calculator?</h5>
+              <p>This calculator helps you determine the cost-effectiveness of importing electricity for large loads
+                during the day or night. It is particularly useful if:</p>
+              <ol>
+                <li>You are on Octopus Agile or another time-of-day tariff</li>
+                <li>You have solar panels and an export tariff</li>
+                <li>There is a cheap period during daylight hours</li>
+                <li>There is a less cheap period during overnight</li>
+              </ol>
+              <h5>Why use this calculator?</h5>
+              <p>While consuming solar power can reduce your energy costs, it’s not always the most cost-effective
+                option if the import rate is lower than the export rate. This tool allows you to compare costs and
+                decide when it’s cheaper to import electricity rather than using your solar power.</p>
+              <h5>Inputs</h5>
+              <ol>
+                <li><strong>Grid import unit price:</strong> Enter the day and night rates.</li>
+                <li><strong>Estimated PV power:</strong> Input the power generated by your solar panels</li>
+                <li><strong>Shiftable import load:</strong> List items that can be shifted between day and night,
+                  including their power ratings
+                </li>
+                <li><strong>Base load:</strong> Enter the constant power draw of your household</li>
+              </ol>
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
@@ -252,7 +267,7 @@ export default function DayNightImportCalc(): JSX.Element {
             <Form.Group as={Col} className="col-12 col-md-6 col-lg-4">
               <Form.Label>Shiftable import load</Form.Label>
               {formInputs.shiftableImportLoads.map((item, idx) =>
-                <InputGroup key={`load-item-${idx}`}>
+                <InputGroup key={`load-item-${idx}`} className="mb-1">
                   <Form.Control type="text"
                                 placeholder="Name"
                                 readOnly={true}
@@ -272,7 +287,7 @@ export default function DayNightImportCalc(): JSX.Element {
                   </Button>
                 </InputGroup>)}
 
-              <Form.Label>Add new item</Form.Label>
+              <Form.Label className="mt-2 mb-1">Add new item</Form.Label>
               <InputGroup>
                 <InputGroup.Text className="d-none d-sm-flex">Name</InputGroup.Text>
                 <Form.Control type="text"
@@ -300,7 +315,7 @@ export default function DayNightImportCalc(): JSX.Element {
                 </Button>
               </InputGroup>
 
-              <Form.Text>This is the import load which can be shifted from day to night, if it works out cheaper.
+              <Form.Text>This is the import load which can be shifted from day to night.
                 Examples include charging the house battery, EV, hot water, etc</Form.Text>
             </Form.Group>
 

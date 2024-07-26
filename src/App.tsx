@@ -4,6 +4,7 @@ import {useLocalStorage} from "usehooks-ts";
 
 import HomePage from './pages/HomePage.tsx';
 import DayNightImportCalc from "./pages/calc/DayNightImportCalc.tsx";
+import {LocalStorage} from "./config/keys.ts";
 
 
 const router = createHashRouter(
@@ -20,7 +21,7 @@ const router = createHashRouter(
 )
 
 function App() {
-  const [theme] = useLocalStorage('theme', 'dark');
+  const [theme] = useLocalStorage(LocalStorage.site.theme, 'dark');
 
   function applyTheme() {
     const htmlElement = document.querySelector('html');

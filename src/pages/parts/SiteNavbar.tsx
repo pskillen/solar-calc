@@ -1,9 +1,19 @@
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 
 import {NavbarConfig, NavbarItem} from "../../types.ts";
+import {useLocalStorage} from "usehooks-ts";
+import {LocalStorage} from "../../config/keys.ts";
 
 export default function SiteNavbar(props: { config: NavbarConfig }) {
   const {config} = props;
+  const [theme, setTheme] = useLocalStorage(LocalStorage.site.theme, 'dark');
+
+  function toggleDarkMode() {
+    if (theme === 'dark')
+      setTheme('light');
+    else
+      setTheme('dark');
+  }
 
   function buildNavDropdown(navItem: NavbarItem, key: string) {
     return <NavDropdown title={navItem.label} key={key}>
@@ -38,6 +48,14 @@ export default function SiteNavbar(props: { config: NavbarConfig }) {
               return <Nav.Link href={navItem.url} key={`nav-item-${i}`}>{navItem.label}</Nav.Link>
             })}
 
+          </Nav>
+          <Nav className="d-flex">
+            <Nav.Link onClick={() => toggleDarkMode()}>
+
+              {theme === 'dark'
+                ? <span className="material-symbols-outlined">dark_mode</span>
+                : <span className="material-symbols-outlined">light_mode</span>}
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
